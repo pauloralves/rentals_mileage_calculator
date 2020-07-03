@@ -1,0 +1,19 @@
+<%= form_for @csv_file do |f| %>
+    <div class="form-group row">
+        <div class="col-md-6 col-md-offset-3">
+            <%= f.label :file, " Please selec a CSV file" %>
+            <%= f.file_field :file, accept: 'text/csv', class: "form-control border-0", required: 'true' %>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-6 col-md-offset-3">
+            <%= f.label :rental_id, "Please associate to a rental" %>
+            <%= f.select :rental_id, Rental.all.map{ |r| [r.name, r.id] }, {}, {required: 'true', class: 'form-control'} %>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-6 col-md-offset-3">
+            <button type="submit" class="btn btn-success">Upload</button>
+        </div>
+    </div>
+<% end %>

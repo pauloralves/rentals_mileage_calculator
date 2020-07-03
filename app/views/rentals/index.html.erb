@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Rentals List</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Total Mileage</th>
+                        <th>Processed Files</th>
+                        <th colspan=2></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @rentals.each do |rental| %>
+                        <tr class="border-bottom-primary">
+                            <td><a class="deco-none" href="/rentals/<%=rental.id%>">
+                                <%= rental.name%>
+                                    
+                            </a></td>
+                            <td><%= rental.total_mileage_km %> km</td>
+                            <td><%= rental.processed_csv_files.size %></td>
+                            <td>
+                                <a href="/rentals/<%=rental.id%>/edit" class="btn btn-dark btn-circle btn-sm">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <%= link_to rental, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-circle btn-sm" do
+                                    %><i class="fas fa-trash"></i>
+                                <% end %>
+                            </td>
+                        </tr>
+                    <% end %>
+                    <% if @rentals.size == 0 %>
+                        <tr class="border-bottom-danger">
+                            <td colspan=3>No rentals to be displayed</td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

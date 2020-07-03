@@ -1,0 +1,109 @@
+<% if notice %>
+<p id="notice" class="alert alert-success"><%= notice %></p>
+<% end %>
+
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800"><%= @rental.name %></h1>
+
+      <div class="d-none d-sm-inline-block">
+          <a href="/rentals/<%=@rental.id%>/edit" class="btn btn-dark btn-circle">
+              <i class="fas fa-pen"></i>
+          </a>
+
+          <%= link_to @rental, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger btn-circle" do
+              %><i class="fas fa-trash"></i>
+          <% end %>
+      </div>
+  </div>
+
+
+
+<!-- Content Row -->
+<div class="row">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-4 col-md-12 mb-4">
+      <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Mileage</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><%= @rental.total_mileage_km %> km</div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-road fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+      <div class="card border-left-warning shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Number of processed files</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><%= @rental.processed_csv_files.size %></div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-file-csv fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+      <div class="card border-left-danger shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Average mileage per processed file</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800"><%= @rental.average_mileage_km %> km</div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-divide fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">CSV Files List</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Number of lines</th>
+                        <th>Status</th>
+                        <th>Distance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @rental.csv_files.order("id DESC").each do |csv_file| %>
+                        <tr class="border-bottom-<%= csv_file.get_status[:class] %>">
+                            <td>File # <%= csv_file.id %></td>
+                            <td><%= csv_file.csv_lines.size %></td>
+                            <td><%= csv_file.get_status[:string] %></td>
+                            <td><%= csv_file.status != 2 ? "-" : (csv_file.distance/1000.0).round(2).to_s + " km"%></td>
+                        </tr>
+                    <% end %>
+                    <% if @rental.csv_files.size == 0 %>
+                        <tr class="border-bottom-danger">
+                            <td colspan=4>No files to be displayed</td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
