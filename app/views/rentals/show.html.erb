@@ -89,7 +89,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% @rental.csv_files.order("id DESC").each do |csv_file| %>
+                    <% @rental.csv_files.each do |csv_file| %>
                         <tr class="border-bottom-<%= csv_file.get_status[:class] %>">
                             <td>File # <%= csv_file.id %></td>
                             <td><%= csv_file.csv_lines.size %></td>

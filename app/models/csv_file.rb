@@ -24,6 +24,7 @@ class CsvFile < ApplicationRecord
       	csv_line.save!
     end
 
+    #Defines string and class for a given status
     def get_status
       case status
       when 0

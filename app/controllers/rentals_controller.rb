@@ -4,7 +4,7 @@ class RentalsController < ApplicationController
   # GET /rentals
   # GET /rentals.json
   def index
-    @rentals = Rental.all.order(:id)
+    @rentals = Rental.all.includes(:csv_files).order(:id)
   end
 
   # GET /rentals/1
@@ -64,7 +64,7 @@ class RentalsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_rental
-      @rental = Rental.find(params[:id])
+      @rental = Rental.includes(csv_files: :csv_lines).order("id DESC").find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
