@@ -27,7 +27,7 @@ class CsvFilesController < ApplicationController
           @csv_file = CsvFile.new({ rental_id: csv_file_params[:rental_id] })
           @csv_file.save!
           @csv_file.create_lines(csv_file_params[:file])
-          @csv_file.delay.calculate_mileage
+          Calculator.delay.new(@csv_file)
         end 
         response = "success"
       rescue ActiveRecord::RecordInvalid => invalid
